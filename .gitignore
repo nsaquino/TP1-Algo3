@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Others
+bin/
+.vscode/
+cmake-build-debug/
+.idea/
+CMakeLists.txt
+ej3/ClaseGreedy
