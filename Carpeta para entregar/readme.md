@@ -1,3 +1,3 @@
 # Carpeta para entregar
 
-Acá va lo que después vamos a convertir en un .zip o algo parecido (un comprimido).
+Acá van los .cpp de los ejercicios que vamos a entregar y el .pdf del informe.

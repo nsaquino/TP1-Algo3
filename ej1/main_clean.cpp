@@ -64,14 +64,17 @@ void cuad_mag(int m, vector<vector<int>> &s, int row, int col, vector<bool> & ca
         if (row==col) diag1 += k;           //suma parcial diag1
         if (row==n-col-1) diag2 += k;       //suma parcial diag2
 
-        cuad_mag(m, s, row, col + 1, candidatos, parciales, diag1, diag2, kesimo);  //se fija soluciones habiendo tomado k actual, y abajo lo quita apra ver las soluciones sin esa
+        //se fija soluciones habiendo tomado k actual para la solucion parcial
+        cuad_mag(m, s, row, col + 1, candidatos, parciales, diag1, diag2, kesimo);
 
-        // Backtracking
+        //Hacemos backtracking, dejamos K actual fuera de la sol parcial
         candidatos[k] = DISPONIBLE;       //borra k actual
         parciales[row] -= k;          //resta a parcial fila
         parciales[n + col] -= k;      //resta a parcial col
         if (row==col) diag1 -= k;        //resta aprcial diag1
         if (row==n-col-1) diag2 -= k;    //resta parcial diag 2
+
+        //siguiente k, sin tomar k actual
     }
 }
 
@@ -82,23 +85,22 @@ int main(int argc, char *argv[]) {
     int kesimo;
     cin >> n >> kesimo;
     
-    // Inicializo parámetros
-    //int primer_num;
-    //int contador;
-    int m = (n * n * n + n) / 2;                //num mag
+    // Inicializamos parámetros para la función
+    int n_magico = (n * n * n + n) / 2;                //num mag
     vector<vector<int>> s(n, vector<int>(n));   //creo cuadrado
     vector<bool> candidatos((n*n)+1, DISPONIBLE);     //vector de nums a usar
     vector<int> parciales(2 * n, 0);               //sumasparciales de filas y cols
     int diag1 = 0;                              //suma parcial diagonal1
     int diag2 = 0;                              //suma parcial diagonal2
 
+    //Aprovechamos que solo trabajaremos con n=3 o n=4
     if(n==3){
         if (kesimo > 8) cout << -1 << endl;
     }else{
         if (kesimo > 7040) cout << -1 << endl;
     }
 
-    cuad_mag(m, s, 0, 0, candidatos, parciales, diag1, diag2, kesimo);    //IDEA: AGREGAR 1 PARAM, kesimo
+    cuad_mag(n_magico, s, 0, 0, candidatos, parciales, diag1, diag2, kesimo);    //IDEA: AGREGAR 1 PARAM, kesimo
     
     //printf("El %d° cuadrado mágico de orden %dx%d es (con podas) es válido y fue impreso, el contador es: %d\n",kesimo, n, n,contador);       //en realidad acá no debería retornar nada //res
     return 0;

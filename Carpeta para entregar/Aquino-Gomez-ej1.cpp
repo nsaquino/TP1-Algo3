@@ -40,23 +40,21 @@ void cuad_mag(int m, vector<vector<int>> &s, int row, int col, vector<bool> & ca
         if (candidatos[k] == USADO) continue;  //ocupado/usado
 
         // Chequeo de fila suma parcial<m y suma==m al final de la fila
+        // Chequeo de col suma parcial<m y suma==m al final de la fila
         if (parciales[row] + k > m) continue;
         if (col == n-1 && parciales[row] + k != m) continue;
-
-        // Chequeo de col suma parcial<m y suma==m al final de la fila
         if (parciales[n + col] + k > m) continue;
         if (row == n-1 && parciales[n + col] + k != m) continue;
 
         // Chequeo de 1°diag suma parcial<m y suma==m al final de la fila
+        // Chequeo de 2°diag suma parcial<m y suma==m al final de la fila
         if (row == col && diag1 + k > m) continue;
         if (row == col && row == n-1 && diag1 + k != m) continue;
-
-        // Chequeo de 2°diag suma parcial<m y suma==m al final de la fila
         if (row == n-col-1 && diag2 + k > m) continue;
         if (row == n-col-1 && row == n - 1 && diag2+ k != m) continue;
 
 
-        //Si llega acá...
+        //Modificaiones si tomo K actual
         s[row][col] = k;            //usa el k actual
         candidatos[k] = USADO;          //pone en 1 el elemento, ocupado
         parciales[row] += k;                //agrega a suma parcial fila
@@ -64,14 +62,17 @@ void cuad_mag(int m, vector<vector<int>> &s, int row, int col, vector<bool> & ca
         if (row==col) diag1 += k;           //suma parcial diag1
         if (row==n-col-1) diag2 += k;       //suma parcial diag2
 
-        cuad_mag(m, s, row, col + 1, candidatos, parciales, diag1, diag2, kesimo);  //se fija soluciones habiendo tomado k actual, y abajo lo quita apra ver las soluciones sin esa
+        //se fija soluciones HABIENDO TOMADO k actual para la solucion parcial
+        cuad_mag(m, s, row, col + 1, candidatos, parciales, diag1, diag2, kesimo); 
 
-        // Backtracking
+        //Hacemos backtracking, dejamos K actual fuera de la sol parcial -> DESHACEMOS CAMBIOS
         candidatos[k] = DISPONIBLE;       //borra k actual
         parciales[row] -= k;          //resta a parcial fila
         parciales[n + col] -= k;      //resta a parcial col
         if (row==col) diag1 -= k;        //resta aprcial diag1
         if (row==n-col-1) diag2 -= k;    //resta parcial diag 2
+
+        //siguiente k, sin haber tomado k actual
     }
 }
 
